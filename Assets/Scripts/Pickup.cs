@@ -5,7 +5,7 @@ public enum PickupType { Damage, Score, Speed, Health }
 public class Pickup : MonoBehaviour
 {
     public PickupType type;
-    public int value = 1;         
+    public int value = 1;          
     public float multiplier = 1.8f; 
     public float duration = 3f;     
 
@@ -17,7 +17,10 @@ public class Pickup : MonoBehaviour
         switch (type)
         {
             case PickupType.Damage: p.TakeDamage(value); return; 
-            case PickupType.Score: p.AddScore(value); break;
+            case PickupType.Score:
+                p.AddScore(value);
+                if (GameManager.Instance != null) GameManager.Instance.CoinCollected();
+                break;
             case PickupType.Speed: p.SpeedBoost(multiplier, duration); break;
             case PickupType.Health: p.Heal(value); break;
         }
